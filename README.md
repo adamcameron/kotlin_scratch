@@ -1,2 +1,2 @@
-# kotlin_scratch
-A project for learning Kotlin via testing it
+# Kotlin Scratch
+A project for learning Kotlin via testing it.
