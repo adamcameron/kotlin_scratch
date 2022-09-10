@@ -1,11 +1,10 @@
 package system.kotest
 
-import io.kotest.assertions.throwables.shouldNotThrow
-import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.assertions.throwables.shouldThrowAny
+import io.kotest.assertions.throwables.*
 import io.kotest.core.spec.style.DescribeSpec
-import java.lang.AssertionError
+import io.kotest.matchers.types.shouldBeInstanceOf
+import io.kotest.matchers.types.shouldBeTypeOf
+import kotlin.AssertionError
 
 class MatcherTest : DescribeSpec({
 
@@ -60,6 +59,31 @@ class MatcherTest : DescribeSpec({
                     throw MySpecificException("This specific exception is NOT expected, so should cause an AssertionError (which the test expects, so still passes")
                 }
             }
+        }
+
+        it("should throw an exception with a specific message") {
+            class InquisitionException(message: String?) : Exception(message)
+
+            shouldThrowMessage("No-one expects the... InquisitionException") {
+                throw InquisitionException("No-one expects the... InquisitionException")
+            }
+        }
+    }
+
+    describe("Tests of type-checking") {
+        it("checks exact type with shouldBeTypeOf") {
+            val i = 24
+
+            i.shouldBeTypeOf<Int>()
+        }
+
+        it("checks subtype with shouldBeInstanceOf") {
+            val i = 15
+
+            shouldThrow<AssertionError> {
+                i.shouldBeTypeOf<Number>()
+            }
+            i.shouldBeInstanceOf<Number>()
         }
     }
 })
