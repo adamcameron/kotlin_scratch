@@ -1,5 +1,6 @@
-package language.strings
+package language.types.strings
 
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
@@ -47,4 +48,58 @@ class StringTest : DescribeSpec({
              message shouldBe "this is indented"
          }
      }
+
+    describe("trimMargin tests") {
+        it("does what it says on the tin") {
+            val testString = """
+                | has | as a margin character
+                | | is the default btw
+            """.trimMargin()
+
+            testString shouldBe " has | as a margin character\n | is the default btw"
+        }
+
+        it("handles a different margin") {
+            val testString = """
+                # has "# "
+                # as a margin value
+            """.trimMargin("# ")
+
+            testString shouldBe "has \"# \"\nas a margin value"
+        }
+    }
+
+    describe("template expression tests") {
+        it("resolves a variable in a string literal") {
+            val name = "Zachary"
+
+            "G'day $name" shouldBe "G'day Zachary"
+        }
+
+        it("resolves a variable in a raw string") {
+            val name = "Joe"
+
+            """
+                G'day $name
+            """.trimIndent() shouldBe "G'day Joe"
+        }
+
+        it("can use curly braces to disambiguate where the variable name ends") {
+            val prefix = "SOME_PREFIX_"
+            "${prefix}REST_OF_STRING" shouldBe "SOME_PREFIX_REST_OF_STRING"
+        }
+
+        it("can take more complicated expressions") {
+            val name = "Zachary"
+
+            "G'day ${name.uppercase()}" shouldBe "G'day ZACHARY"
+        }
+
+        it("can take blocks of code provided they resolve to a string?") {
+            val name = "Joe"
+            val case = "lower"
+
+            "G'day ${if (case == "upper"){name.uppercase()} else {name.lowercase()}}" shouldBe "G'day joe"
+        }
+    }
 })
