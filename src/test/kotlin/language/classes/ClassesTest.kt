@@ -10,7 +10,7 @@ class Suffragist(firstName:String, lastName:String) {
 
 class Scientist(val firstName:String, val lastName:String)
 
-class Politician(val firstName:String, val lastName:String) {
+class Politician(firstName:String, lastName:String) {
     init {
         println("First name: $firstName")
     }
@@ -20,9 +20,12 @@ class Politician(val firstName:String, val lastName:String) {
     }
 }
 
-class FilmMaker(val firstName:String, val lastName:String) {
+class FilmMaker(firstName:String, lastName:String) {
     val fullName = "$firstName $lastName"
-    constructor(names: Map<String, String>) : this(names["firstName"]!!, names["lastName"]!!)
+
+    companion object Factory {
+        fun createFromMap(names: Map<String, String>) = FilmMaker(names["firstName"]!!, names["lastName"]!!)
+    }
 }
 
 class ChiefJustice {
@@ -66,7 +69,7 @@ class ClassesTest : DescribeSpec({
 
         it("can have a secondary constructor") {
             val names = mapOf(Pair("firstName", "Jane"), "lastName" to "Campion")
-            val filmMaker = FilmMaker(names)
+            val filmMaker = FilmMaker.createFromMap(names)
 
             filmMaker.fullName shouldBe "Jane Campion"
         }
