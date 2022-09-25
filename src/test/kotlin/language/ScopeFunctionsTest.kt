@@ -146,11 +146,6 @@ class ScopeFunctionsTest : DescribeSpec ({
                     withClue("should NOT be a multiple of 11") {
                         checked.shouldBeNull()
                     }
-
-                    checked = checked?.takeUnless { it % 13 != 0 }
-                    withClue("should be a multiple of 13") {
-                        checked shouldBe it
-                    }
                 }
             }
         }
