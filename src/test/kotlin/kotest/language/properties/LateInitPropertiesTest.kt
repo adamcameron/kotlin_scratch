@@ -1,4 +1,4 @@
-package language.properties
+package kotest.language.properties
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec

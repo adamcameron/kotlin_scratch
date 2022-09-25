@@ -1,4 +1,4 @@
-package language
+package kotest.language
 
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.kotest.assertions.asClue

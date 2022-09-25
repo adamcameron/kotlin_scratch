@@ -1,6 +1,5 @@
-package language.types.strings
+package kotest.language.types.strings
 
-import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 

@@ -1,4 +1,4 @@
-package language.variables
+package kotest.language.variables
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

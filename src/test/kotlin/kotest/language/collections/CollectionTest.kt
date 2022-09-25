@@ -1,4 +1,4 @@
-package language.collections
+package kotest.language.collections
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

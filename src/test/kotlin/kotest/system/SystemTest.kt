@@ -1,4 +1,4 @@
-package system
+package kotest.system
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

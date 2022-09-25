@@ -1,4 +1,4 @@
-package system.kotest
+package kotest.system.kotest
 
 import io.kotest.assertions.throwables.*
 import io.kotest.core.spec.style.DescribeSpec

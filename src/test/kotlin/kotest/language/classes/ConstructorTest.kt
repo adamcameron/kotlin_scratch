@@ -1,4 +1,4 @@
-package language.classes
+package kotest.language.classes
 
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.kotest.core.spec.style.DescribeSpec

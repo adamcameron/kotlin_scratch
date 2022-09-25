@@ -1,9 +1,8 @@
-package language.types
+package kotest.language.types
 
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import java.lang.IllegalArgumentException
 
 class NothingTest : DescribeSpec( {
     describe("Tests of the Nothing type") {

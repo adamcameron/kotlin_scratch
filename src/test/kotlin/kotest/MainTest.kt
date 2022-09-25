@@ -1,6 +1,9 @@
+package kotest
+
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import main
 
 class MainTest : DescribeSpec ({
     describe("Tests of Main class") {
