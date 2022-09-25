@@ -18,6 +18,8 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:5.4.2")
     testImplementation("com.github.stefanbirkner:system-lambda:1.2.1")
     testImplementation("org.apache.commons:commons-lang3:3.12.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
 
 tasks.withType<Test>().configureEach {

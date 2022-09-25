@@ -16,7 +16,7 @@ class SystemTest : DescribeSpec({
     }
     describe("tests of system-lambda") {
         it("checks system-lambda is working OK") {
-            var testString = "string to capture"
+            val testString = "string to capture"
             val output = tapSystemOut {
                 print(testString)
             }
