@@ -19,6 +19,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("io.kotest:kotest-framework-datatest:5.5.0")
+    implementation("io.ktor:ktor-client-core:2.1.2")
+    implementation("io.ktor:ktor-client-cio:2.1.2")
 }
 
 tasks.withType<Test>().configureEach {
