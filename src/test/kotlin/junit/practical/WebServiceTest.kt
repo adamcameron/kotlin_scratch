@@ -1,5 +1,6 @@
 package junit.practical
 
+import io.kotest.assertions.withClue
 import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
 import io.ktor.client.HttpClient
@@ -29,7 +30,7 @@ internal class WebServiceTest {
                 val response = client.get(webserviceUrl) {
                     header("Accept", "application/json")
                 }
-                
+
                 response.status shouldBe HttpStatusCode.OK
             }
         }
@@ -85,7 +86,10 @@ internal class WebServiceTest {
 
                 response.status shouldBe HttpStatusCode.Created
                 response.body() as Number shouldBe five
-                response.headers["Location"] shouldBe "${webserviceUrl}5"
+
+                withClue("The Location header should be the URL of the new resource") {
+                    response.headers["Location"] shouldBe "$webserviceUrl${five.id}"
+                }
             }
         }
     }
