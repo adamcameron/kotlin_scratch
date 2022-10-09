@@ -1,8 +1,11 @@
 package junit.practical
 
+import exposed.TranslatedNumber
+import io.kotest.assertions.asClue
 import io.kotest.assertions.withClue
 import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -13,15 +16,17 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.Serializable
-
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 
 @DisplayName("Tests of WebService class")
 internal class WebServiceTest {
 
-    val webserviceUrl = "http://localhost:8080/numbers/"
+    private val webserviceUrl = "http://localhost:8080/numbers/"
 
     @Serializable
-    data class Number(val id: Int, val en: String, val mi: String)
+    data class SerializableNumber(val id: Int, val en: String, val mi: String)
 
     @Test
     fun `It should return a 200-OK on the root URI on a valid request`() {
@@ -61,18 +66,18 @@ internal class WebServiceTest {
                 }
 
                 response.status shouldBe HttpStatusCode.OK
-                response.body() as List<Number> shouldBe listOf(
-                    Number(1, "one", "tahi"),
-                    Number(2, "two", "rua"),
-                    Number(3, "three", "toru"),
-                    Number(4, "four", "wha")
+                response.body() as List<SerializableNumber> shouldBe listOf(
+                    SerializableNumber(1, "one", "tahi"),
+                    SerializableNumber(2, "two", "rua"),
+                    SerializableNumber(3, "three", "toru"),
+                    SerializableNumber(4, "four", "wha")
                 )
             }
         }
     }
     @Test
     fun `It will accept a POST request of an object as JSON and return the same object as confirmation, and its URL`() {
-        val five = Number(5, "five", "rima")
+        val five = SerializableNumber(5, "five", "rima")
         runBlocking {
             HttpClient() {
                 install(ContentNegotiation) {
@@ -85,10 +90,50 @@ internal class WebServiceTest {
                 }
 
                 response.status shouldBe HttpStatusCode.Created
-                response.body() as Number shouldBe five
+                response.body() as SerializableNumber shouldBe five
 
                 withClue("The Location header should be the URL of the new resource") {
                     response.headers["Location"] shouldBe "$webserviceUrl${five.id}"
+                }
+            }
+        }
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(
+        named = "MARIADB_PASSWORD",
+        matches = ".*",
+        disabledReason = "This test requires a MariaDB database, so it needs the password"
+    )
+    fun `It saves the new object to the database`() {
+        val six = SerializableNumber(6, "six", "ono")
+        runBlocking {
+            HttpClient() {
+                install(ContentNegotiation) {
+                    json()
+                }
+            }.use { client ->
+                val response = client.post(webserviceUrl) {
+                    contentType(ContentType.Application.Json)
+                    setBody(six)
+                }
+
+                response.status shouldBe HttpStatusCode.Created
+
+            }
+            Database.connect(
+                "jdbc:mysql://localhost:3308/db1",
+                driver = "com.mysql.cj.jdbc.Driver",
+                user = "user1",
+                password = System.getenv("MARIADB_PASSWORD")
+            )
+            transaction {
+                addLogger(StdOutSqlLogger)
+
+                TranslatedNumber.findById(six.id).asClue {
+                    it shouldNotBe null
+                    it!!.en shouldBe six.en
+                    it.mi shouldBe six.mi
                 }
             }
         }

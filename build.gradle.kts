@@ -4,6 +4,7 @@ val commonsLang3Version: String by project
 val junitJupiterVersion: String by project
 val ktorVersion: String by project
 val exposedVersion: String by project
+val mysqlConnectorVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.7.10"
@@ -34,6 +35,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
 }
 
 tasks.withType<Test>().configureEach {
