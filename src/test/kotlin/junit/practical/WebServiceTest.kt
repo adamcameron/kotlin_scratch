@@ -2,12 +2,10 @@ package junit.practical
 
 import exposed.TranslatedNumber
 import io.kotest.assertions.asClue
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.string.shouldStartWith
 import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
