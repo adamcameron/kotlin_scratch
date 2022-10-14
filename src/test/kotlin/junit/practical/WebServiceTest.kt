@@ -2,10 +2,12 @@ package junit.practical
 
 import exposed.TranslatedNumber
 import io.kotest.assertions.asClue
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldStartWith
 import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -18,15 +20,35 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.condition.EnabledIf
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import java.net.ConnectException
 
 @DisplayName("Tests of WebService class")
+@EnabledIf("isUp")
 internal class WebServiceTest {
 
-    private val webserviceUrl = "http://localhost:8080/numbers/"
+    private val webserviceUrl = webServiceBaseUrl + "numbers/"
 
     @Serializable
     data class SerializableNumber(val id: Int, val en: String, val mi: String)
+
+    companion object {
+        const val webServiceBaseUrl = "http://localhost:8080/"
+        @JvmStatic
+        fun isUp(): Boolean {
+            return try {
+                runBlocking {
+                    HttpClient().use { client ->
+                        client.head(webServiceBaseUrl)
+                    }
+                }
+                true
+            } catch (e: ConnectException) {
+                false
+            }
+        }
+    }
 
     @Test
     fun `It should return a 200-OK on the root URI on a valid request`() {
