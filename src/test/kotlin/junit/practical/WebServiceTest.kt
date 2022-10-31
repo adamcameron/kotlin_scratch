@@ -8,13 +8,14 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.client.HttpClient
 import io.ktor.client.call.*
+import io.ktor.client.call.body
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -33,6 +34,7 @@ internal class WebServiceTest {
 
     companion object {
         const val webServiceBaseUrl = "http://localhost:8080/"
+
         @JvmStatic
         fun isUp(): Boolean {
             return try {
@@ -60,6 +62,7 @@ internal class WebServiceTest {
             }
         }
     }
+
     @Test
     fun `It should return a 406-NOT-ACCEPTABLE and suggest the expected type if the Accepts header is not application-json`() {
         runBlocking {
@@ -73,6 +76,7 @@ internal class WebServiceTest {
             }
         }
     }
+
     @Test
     fun `It returns an array of Numbers as a JSON array`() {
         runBlocking {
@@ -95,6 +99,7 @@ internal class WebServiceTest {
             }
         }
     }
+
     @Test
     fun `It will accept a POST request of an object as JSON and return the same object as confirmation, and its URL`() {
         val five = SerializableNumber(5, "five", "rima")

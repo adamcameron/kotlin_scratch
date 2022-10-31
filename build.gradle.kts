@@ -20,9 +20,9 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
