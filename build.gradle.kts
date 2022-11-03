@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.atteo:evo-inflector:1.2.2")
     implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
