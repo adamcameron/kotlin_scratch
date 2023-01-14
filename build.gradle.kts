@@ -21,14 +21,14 @@ repositories {
 
 dependencies {
     implementation("org.atteo:evo-inflector:1.2.2")
-    implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("io.ktor:ktor-client-cio-jvm:2.2.2")
+    implementation("io.ktor:ktor-client-content-negotiation:2.2.2")
+    implementation("io.ktor:ktor-client-core-jvm:2.2.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.2")
     testImplementation("com.github.stefanbirkner:system-lambda:$systemLambdaVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
